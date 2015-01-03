@@ -207,14 +207,14 @@ then files in that directory will be linked by ```wsup``` on the appropriate ope
 To bootstrap a completely new OS install, I do this:
 
 ```
-$ bash <$(curl -fsSL https://raw.github.com/dcreemer/wsup/master/bin/wsup)
+$ bash <$(curl -fsSL https://raw.github.com/deepumukundan/wsup/master/bin/wsup)
 $ wsup add dotfiles dotemacs [<git-urls-to-any-private-repos> ...]
 ```
 
 (on FreeBSD use this instead)
 
 ```
-BOOT=yes curl -fsSL https://raw.github.com/dcreemer/wsup/master/bin/wsup | bash
+BOOT=yes curl -fsSL https://raw.github.com/deepumukundan/wsup/master/bin/wsup | bash
 ```
 
 (This assumes curl, bash, and git are already installed).
@@ -232,8 +232,7 @@ even though wsup knows nothing about the repository owner or name.
 
 ## See Also ##
 
-Both my [personal dotfiles](https://github.com/dcreemer/dotfiles) and
-[emacs configuration](https://github.com/dcreemer/dotemacs) are managed using wsup and have
+My [personal dotfiles](https://github.com/deepumukundan/dotfiles) is managed using wsup and have
 examples of directory layout and configuration.
 
 ## Credits ##

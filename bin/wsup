@@ -710,7 +710,7 @@ wsup list (or just "wsup") - show status for all known targets
 wsup install               - install all configured packages
 wsup pull [target(s)]      - with no arguments, 'git pull' all known targets. With arguments, just 'git pull' the given target(s)
 
-see https://github.com/dcreemer/wsup for detailed documentation
+see https://github.com/deepumukundan/wsup for detailed documentation
 
 HELP
 }
