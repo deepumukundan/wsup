@@ -69,7 +69,7 @@ target's local repository, and so enable or disable the target. For example:
     TARGET           S REPOSITORY
     ---------------- - --------------------------------------------------------------------
     work             ! https://example.com/joe/work.git
-    personal         * git@github.com:joe/personal.git
+    personal         * https://joe@github.com/joe/personal.git
 
 ```wsup link``` and ```wsup unlink``` can be called with multiple targets, or with no targets,
 in which case the command applies to all know targets.
@@ -132,14 +132,14 @@ to any target-specific configurations files (see below). This file is a bash fil
 executed in the context of the ```wsup``` script, and is used to customize the ```wsup```
 environment.
 
-Variable      | Default                       | Description
-------------- | -----------                   | -----------
-VERBOSE       | 1                             | set to enable debug output
-WD            | $HOME/.wsup                   | wsup home directory
-REPO_USER     | $USER                         | the name of the account on the git repo site 
-REPO_PREFIX   | "git@github.com:${REPO_USER}" | prefix to use when cloning named targets
-BASE_TARGET   | dotfiles                      | name of the target / repository to automatically add to the targets list as a "base" target
-IGNORE_RE     | <see below>                   | regular expression of repo files to ignore
+Variable      | Default                                         | Description
+------------- | -----------                                     | -----------
+VERBOSE       | 1                                               | set to enable debug output
+WD            | $HOME/.wsup                                     | wsup home directory
+REPO_USER     | $USER                                           | the name of the account on the git repo site 
+REPO_PREFIX   | "https://${REPO_USER}@github.com/${REPO_USER}"  | prefix to use when cloning named targets
+BASE_TARGET   | dotfiles                                        | name of the target / repository to automatically add to the targets list as a "base" target
+IGNORE_RE     | <see below>                                     | regular expression of repo files to ignore
 
 In the default configuration, ```wsup``` ignores (does not link into $HOME) any repository
 files that match the ```IGNORE_RE``` regular expression. This is used to excluded files and
@@ -207,8 +207,8 @@ then files in that directory will be linked by ```wsup``` on the appropriate ope
 To bootstrap a completely new OS install, I do this:
 
 ```
-$ bash <$(curl -fsSL https://raw.github.com/deepumukundan/wsup/master/bin/wsup)
-$ wsup add dotfiles dotemacs [<git-urls-to-any-private-repos> ...]
+$ bash < <(curl -fsSL https://raw.github.com/deepumukundan/wsup/master/bin/wsup)
+$ ~/.wsup/wsup/bin/wsup add dotfiles [<git-urls-to-any-private-repos> ...]
 ```
 
 (on FreeBSD use this instead)
@@ -222,7 +222,7 @@ BOOT=yes curl -fsSL https://raw.github.com/deepumukundan/wsup/master/bin/wsup | 
 The .wsup/config file can include several ```add_target``` commands to enable easy installation
 of further private ```wsup``` repositories. For example, adding:
 
-    add_target "project1" "git@github.com:somename/private-project-repo.git"
+    add_target "project1" "https://somename@github.com/somename/private-project-repo.git"
 
 will enable:
 
