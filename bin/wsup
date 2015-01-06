@@ -29,6 +29,9 @@ IGNORE_RE="(^\.git$)|(^\.gitignore$)|(^\.wsup$)|(^[Rr][Ee][Aa][Dd][Mm][Ee].*)|(^
 
 # default repo name for the 'dotfiles' repository
 BASE_TARGET="dotfiles"
+COMMON_TARGET="wsupcommon"
+PERSONAL_TARGET="wsuppersonal"
+WORK_TARGET="wsupwork"
 
 ##
 ## globals (don't touch these)
@@ -165,11 +168,30 @@ scan_targets()
             fi
         fi
     done
-    # if there is no base repo, add the default:
+
+    # if there is no base repos, add the defaults:
     get_target $BASE_TARGET
     if [[ $REPO == "" ]]; then
         add_target $BASE_TARGET "${REPO_PREFIX}/${BASE_TARGET}.git"
         get_target $BASE_TARGET
+    fi
+    
+    get_target $COMMON_TARGET
+    if [[ $REPO == "" ]]; then
+        add_target $COMMON_TARGET "${REPO_PREFIX}/${COMMON_TARGET}.git"
+        get_target $COMMON_TARGET
+    fi
+    
+    get_target $PERSONAL_TARGET
+    if [[ $REPO == "" ]]; then
+        add_target $PERSONAL_TARGET "${REPO_PREFIX}/${PERSONAL_TARGET}.git"
+        get_target $PERSONAL_TARGET
+    fi
+    
+    get_target $WORK_TARGET
+    if [[ $REPO == "" ]]; then
+        add_target $WORK_TARGET "${REPO_PREFIX}/${WORK_TARGET}.git"
+        get_target $WORK_TARGET
     fi
 }
 
@@ -209,7 +231,7 @@ ensure_update()
                 sudo apt-get update
                 ;;
             "Darwin")
-                brew update
+                brew update && brew upgrade
                 ;;
             "FreeBSD")
                 sudo pkg update
@@ -224,6 +246,10 @@ install_packages()
     # indicate that we have not done a pkg db update
     DONE_UPDATE=0
     idx=0
+    
+    # Ensure that all existing packages are up to date
+    ensure_update
+    
     while [[ $idx -lt ${#PKGS[@]} ]]; do
         local pkg="${PKGS[$idx]}"
         case $OS in
@@ -249,7 +275,6 @@ install_apt_pkg()
     local args=$*
     dpkg -l $p >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        ensure_update
         log 1 "" "installing $p"
         sudo apt-get install -y $p
     else
@@ -268,7 +293,6 @@ install_brew_pkg()
     else
         local args=$*
         if [[ ! -d /usr/local/Cellar/${p} ]]; then
-            ensure_update
             log 1 "" "installing $p"
             brew install $p $args
         else
@@ -285,7 +309,6 @@ install_brew_cask_pkg()
     local args=$*
     brew cask info "$p" | grep "Not installed" > /dev/null 2>&1
     if [[ $? -eq 0 ]]; then
-        ensure_update
         log 1 "" "installing cask $p"
         brew cask install $p $args
     else
@@ -301,7 +324,6 @@ install_bsd_pkg()
     local args=$*
     pkg info -e $p
     if [[ $? -eq 1 ]]; then
-        ensure_update
         log 1 "" "installing $p"
         sudo pkg install -U -y $p
     else
@@ -644,9 +666,13 @@ pull_one()
 
 command_list()
 {
-    echo "TARGET           S REPOSITORY"
-    echo "---------------- - --------------------------------------------------------------------"
+    echo ""
+    echo "---------------- --  -------------------------------------------------------------------"
+    echo "TARGET           💠   REPOSITORY"
+    echo "---------------- --  -------------------------------------------------------------------"
     map_targets "print_target_info"
+    echo "---------------- --  -------------------------------------------------------------------"
+    echo ""
 }
 
 print_target_info()
@@ -657,15 +683,15 @@ print_target_info()
     if [[ -d "${WD}/${target}" ]]; then
         verify_target $target
         if [[ $VERIFY -eq 0 ]]; then
-            status="*"
+            status="✅"
         else
-            status="!"
+            status="❌"
         fi
     fi
     if [[ "$r" == "" ]]; then
-        r="<unknown>"
+        r="🚨  WSUP Core"
     fi
-    printf "%-16s %s %s\n" "${target}" "$status" "$r"
+    printf "%-16s %s %s\n" "${target}" "$status" "  $r"
 }
 
 ##
