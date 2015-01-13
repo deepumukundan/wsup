@@ -231,7 +231,8 @@ ensure_update()
                 sudo apt-get update
                 ;;
             "Darwin")
-                brew update && brew upgrade
+                brew update && brew upgrade && brew cleanup && brew prune
+                brew upgrade brew-cask && brew cask cleanup
                 ;;
             "FreeBSD")
                 sudo pkg update
@@ -239,6 +240,11 @@ ensure_update()
         esac
         DONE_UPDATE=1
     fi
+}
+
+install_core_tools()
+{
+	brew install caskroom/cask/brew-cask
 }
 
 install_packages()
@@ -706,9 +712,7 @@ command_boot()
     fi
     if [[ ! -d "${WD}/wsup" ]]; then
         log 1 "" "bootstrapping wsup!"
-        # ensure that we have git and curl:
-        install_package git
-        install_package curl
+        install_core_tools
         install_packages
         mkdir -p "${WD}/wsup/bin"
         local ws="${WD}/wsup/bin/wsup"
