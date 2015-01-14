@@ -261,14 +261,14 @@ install_core_tools()
 {
 	# Homebrew - The missing package manager for OSX
 	check_existance brew
-	if [[$EXISTS -eq 0]]; then
+	if [[ $EXISTS -eq 0 ]]; then
 		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 		brew doctor
 	fi
 	
 	# Brew Cask for application installations
 	check_existance cask
-	if [[$EXISTS -eq 0]]; then
+	if [[ $EXISTS -eq 0 ]]; then
 		install_package caskroom/cask/brew-cask
 		export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/Applications"
 		brew cask --appdir=/Applications --caskroom=/Applications
@@ -276,14 +276,14 @@ install_core_tools()
 	
 	# gpg	
 	check_existance gpg
-	if [[$EXISTS -eq 0]]; then
+	if [[ $EXISTS -eq 0 ]]; then
 		install_package gpg
 		gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 	fi
 	
 	# RVM for Ruby version management
 	check_existance rvm
-	if [[$EXISTS -eq 0]]; then
+	if [[ $EXISTS -eq 0 ]]; then
 		gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 		curl -sSL https://get.rvm.io | bash -s stable --ruby
 	fi
