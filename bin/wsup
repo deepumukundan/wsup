@@ -10,7 +10,7 @@ set -o nounset
 ##
 
 # verbosity level; 0 == debug, 1 == normal
-VERBOSE=1
+VERBOSE=0
 
 # the WSUP directory
 WD="$HOME/.wsup"
