@@ -270,8 +270,8 @@ install_core_tools()
 	check_existance cask
 	if [[ $EXISTS -eq 0 ]]; then
 		brew install caskroom/cask/brew-cask
-		export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/Applications"
-		brew cask --appdir=/Applications --caskroom=/Applications
+		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+		brew cask --appdir=/Applications
 	fi
 	
 	# gpg	
