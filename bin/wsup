@@ -58,6 +58,9 @@ commands="help add list link install unlink boot pull"
 # result of verification
 VERIFY=0
 
+# result of existence check
+EXISTS=0
+
 # final error code
 ERR=0
 
@@ -85,6 +88,18 @@ seterr()
     if [[ $ERR -eq 0 ]]; then
         ERR=$code
     fi
+}
+
+##
+## utility
+##
+check_existance()
+{
+	EXISTS=0
+	which $1 | grep $1 > /dev/null 2>&1
+	if [[ $? -eq 0 ]]; then
+			EXISTS=1
+	fi
 }
 
 ##
@@ -245,15 +260,33 @@ ensure_update()
 install_core_tools()
 {
 	# Homebrew - The missing package manager for OSX
-	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	brew doctor
+	check_existance brew
+	if [[$EXISTS -eq 0]]; then
+		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		brew doctor
+	fi
 	
 	# Brew Cask for application installations
-	install_package caskroom/cask/brew-cask
+	check_existance cask
+	if [[$EXISTS -eq 0]]; then
+		install_package caskroom/cask/brew-cask
+		export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/Applications"
+		brew cask --appdir=/Applications --caskroom=/Applications
+	fi
+	
+	# gpg	
+	check_existance gpg
+	if [[$EXISTS -eq 0]]; then
+		install_package gpg
+		gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+	fi
 	
 	# RVM for Ruby version management
-	install_package gpg
-	gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+	check_existance rvm
+	if [[$EXISTS -eq 0]]; then
+		gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+		curl -sSL https://get.rvm.io | bash -s stable --ruby
+	fi
 }
 
 install_packages()
