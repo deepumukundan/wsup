@@ -269,7 +269,7 @@ install_core_tools()
 	# Brew Cask for application installations
 	check_existance cask
 	if [[ $EXISTS -eq 0 ]]; then
-		install_package caskroom/cask/brew-cask
+		brew install caskroom/cask/brew-cask
 		export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/Applications"
 		brew cask --appdir=/Applications --caskroom=/Applications
 	fi
@@ -278,7 +278,6 @@ install_core_tools()
 	check_existance gpg
 	if [[ $EXISTS -eq 0 ]]; then
 		install_package gpg
-		gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 	fi
 	
 	# RVM for Ruby version management
