@@ -244,7 +244,16 @@ ensure_update()
 
 install_core_tools()
 {
-	brew install caskroom/cask/brew-cask
+	# Homebrew - The missing package manager for OSX
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	brew doctor
+	
+	# Brew Cask for application installations
+	install_package caskroom/cask/brew-cask
+	
+	# RVM for Ruby version management
+	install_package gpg
+	gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 }
 
 install_packages()
