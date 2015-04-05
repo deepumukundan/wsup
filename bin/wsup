@@ -10,7 +10,7 @@ set -o nounset
 ##
 
 # verbosity level; 0 == debug, 1 == normal
-VERBOSE=0
+VERBOSE=1
 
 # the WSUP directory
 WD="$HOME/.wsup"
@@ -190,19 +190,19 @@ scan_targets()
         add_target $BASE_TARGET "${REPO_PREFIX}/${BASE_TARGET}.git"
         get_target $BASE_TARGET
     fi
-    
+
     get_target $COMMON_TARGET
     if [[ $REPO == "" ]]; then
         add_target $COMMON_TARGET "${REPO_PREFIX}/${COMMON_TARGET}.git"
         get_target $COMMON_TARGET
     fi
-    
+
     get_target $PERSONAL_TARGET
     if [[ $REPO == "" ]]; then
         add_target $PERSONAL_TARGET "${REPO_PREFIX}/${PERSONAL_TARGET}.git"
         get_target $PERSONAL_TARGET
     fi
-    
+
     get_target $WORK_TARGET
     if [[ $REPO == "" ]]; then
         add_target $WORK_TARGET "${REPO_PREFIX}/${WORK_TARGET}.git"
@@ -265,7 +265,7 @@ install_core_tools()
 		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 		brew doctor
 	fi
-	
+
 	# Brew Cask for application installations
 	check_existance cask
 	if [[ $EXISTS -eq 0 ]]; then
@@ -273,13 +273,13 @@ install_core_tools()
 		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 		brew cask --appdir=/Applications
 	fi
-	
-	# gpg	
+
+	# gpg
 	check_existance gpg
 	if [[ $EXISTS -eq 0 ]]; then
 		install_package gpg
 	fi
-	
+
 	# RVM for Ruby version management
 	check_existance rvm
 	if [[ $EXISTS -eq 0 ]]; then
@@ -293,10 +293,10 @@ install_packages()
     # indicate that we have not done a pkg db update
     DONE_UPDATE=0
     idx=0
-    
+
     # Ensure that all existing packages are up to date
     ensure_update
-    
+
     while [[ $idx -lt ${#PKGS[@]} ]]; do
         local pkg="${PKGS[$idx]}"
         case $OS in
@@ -384,7 +384,7 @@ install_bsd_pkg()
 
 fetch_repo()
 {
-    # given a target name, fetch the repository 
+    # given a target name, fetch the repository
     local target=$1
     local target_dir=${WD}/$target
     if [[ ! -r $target_dir ]]; then
@@ -478,7 +478,7 @@ link_dir()
         fi
     fi
 }
- 
+
 add_symlink()
 {
     target=$1
