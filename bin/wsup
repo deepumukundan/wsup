@@ -350,6 +350,9 @@ install_brew_pkg()
 
 install_brew_cask_pkg()
 {
+    # Setting it here since environment might not have this
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
     # install a brew-cask based package (if it doesn't exist)
     local p=$1
     shift
