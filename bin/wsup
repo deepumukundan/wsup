@@ -16,7 +16,7 @@ VERBOSE=1
 WD="$HOME/.wsup"
 
 # repo account name
-REPO_USER=${USER}
+REPO_USER=deepumukundan
 
 # default URL prefix for repos:
 REPO_PREFIX="https://${REPO_USER}@github.com/${REPO_USER}"
