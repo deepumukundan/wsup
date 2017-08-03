@@ -29,9 +29,6 @@ IGNORE_RE="(^\.git$)|(^\.gitignore$)|(^\.wsup$)|(^[Rr][Ee][Aa][Dd][Mm][Ee].*)|(^
 
 # default repo name for the 'dotfiles' repository
 BASE_TARGET="dotfiles"
-COMMON_TARGET="wsupcommon"
-PERSONAL_TARGET="wsuppersonal"
-WORK_TARGET="wsupwork"
 
 ##
 ## globals (don't touch these)
@@ -189,24 +186,6 @@ scan_targets()
     if [[ $REPO == "" ]]; then
         add_target $BASE_TARGET "${REPO_PREFIX}/${BASE_TARGET}.git"
         get_target $BASE_TARGET
-    fi
-
-    get_target $COMMON_TARGET
-    if [[ $REPO == "" ]]; then
-        add_target $COMMON_TARGET "${REPO_PREFIX}/${COMMON_TARGET}.git"
-        get_target $COMMON_TARGET
-    fi
-
-    get_target $PERSONAL_TARGET
-    if [[ $REPO == "" ]]; then
-        add_target $PERSONAL_TARGET "${REPO_PREFIX}/${PERSONAL_TARGET}.git"
-        get_target $PERSONAL_TARGET
-    fi
-
-    get_target $WORK_TARGET
-    if [[ $REPO == "" ]]; then
-        add_target $WORK_TARGET "${REPO_PREFIX}/${WORK_TARGET}.git"
-        get_target $WORK_TARGET
     fi
 }
 
