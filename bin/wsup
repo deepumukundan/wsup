@@ -709,6 +709,7 @@ command_boot()
         curl -fsSL "${WSUP_BOOT}" > $ws
         chmod a+x $ws
         scan_targets
+	log 1 "" "🚀 bootstrapping complete!"
     fi
     link_target wsup
 }
