@@ -225,8 +225,7 @@ ensure_update()
                 sudo apt-get update
                 ;;
             "Darwin")
-                brew update && brew upgrade && brew cleanup && brew prune
-                brew upgrade brew-cask && brew cask cleanup
+                brew update && brew upgrade && brew cleanup
                 ;;
             "FreeBSD")
                 sudo pkg update
