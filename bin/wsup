@@ -236,16 +236,6 @@ ensure_update()
     fi
 }
 
-install_core_tools()
-{
-	# Homebrew - The missing package manager for OSX
-	check_existance brew
-	if [[ $EXISTS -eq 0 ]]; then
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-		brew doctor
-	fi
-}
-
 install_packages()
 {
     # indicate that we have not done a pkg db update
@@ -714,7 +704,6 @@ command_boot()
     fi
     if [[ ! -d "${WD}/wsup" ]]; then
         log 1 "" "bootstrapping wsup!"
-        install_core_tools
         install_packages
         mkdir -p "${WD}/wsup/bin"
         local ws="${WD}/wsup/bin/wsup"
